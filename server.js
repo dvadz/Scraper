@@ -15,15 +15,15 @@ const app = express();
 // configure handlebars
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
+app.use(express.static("public"));
 
 
 app.get("/", (req, res) => {
-    console.log(`ROUTE: /`);
-    res.send("WELCOME TO THE SCRAPER");
+    res.redirect("/listings");
 });
 
 
-app.get("/article", (req, res) => {
+app.get("/listings", (req, res) => {
     
     // delete all existing documents 
     db.Article.deleteMany({})
@@ -64,7 +64,7 @@ app.get("/article", (req, res) => {
             console.log("ALL PROMISES ARE FINISHED");
             db.Article.find()
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 res.render("article", {article: data});
             })
             .catch(err => {
