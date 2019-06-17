@@ -3,9 +3,13 @@ $(document).ready(() =>{
     console.log("document is ready!");
     
     $(document).on("click", ".btn-save", event =>{
-        console.log("save");
-        console.log(event);
-        console.log(event.target.attributes[0]);
+        const id = event.target.dataset.name;
+        console.log("ID: ", id);
+       
+        // save this listing with the 'id' to the favorites
+        $.get(`/api/save/${id}`, response => {
+            console.log(response);
+        });
     });
 
 });
