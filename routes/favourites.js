@@ -9,11 +9,11 @@ const db = require("../models");
 module.exports = app => {
 
     // save the listing with the given id
-    app.get("/api/save/:id", (req, res) => {
+    app.post("/api/save/:id", (req, res) => {
         const id = req.params.id;
-        console.log(req.url);
-        console.log(id)
-        
+
+        console.log("EXPRESS: /api/save:id");
+
         // get the details of this id
         db.Article.find({_id: id})
         .then(data => {
@@ -64,9 +64,6 @@ module.exports = app => {
     });
 
 
-    app.get("/favorite", (req, res) => {
-        console.log("EXPRESS: /favorite");
-        res.send("You want to see all favorites");
-    });
+
 
 }
