@@ -1,5 +1,13 @@
  {{#each article}}
-<div>
-    <a href="{{link}}" target="_blank">{{title}}</a> <button id="{{_id}}" data-name="{{_id}}" class="btn btn-primary btn-save">SAVE</button>
+<div class="row py-4 my-4 border border-primary rounded">
+      <div class="contents col-md-9">
+        <a class="" href="{{link}}" target="_blank">{{title}}</a>
+        <p id="note">{{note}}</p>
+    </div>
+    
+    <div class="col-md-3 ">
+         <button id="{{_id}}" data-name="{{_id}}" class="btn btn-primary btn-save">&#9825  SAVE THIS  &#9825</button>
+    </div>
+
 </div>
 {{/each}}

@@ -70,4 +70,20 @@ module.exports = app => {
         });
     });
     
+    // show all favourites
+    app.get("/favorites", (req, res) => {
+        console.log("EXPRESS: /favorite");
+
+        // get all documents in the favorites collection
+        db.Favorite.find()
+
+        // give back a page with all the favorites
+        .then(data => {
+            res.render("favourite", {favourite: data});        
+        })
+        .catch(error => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+    });
 }
