@@ -71,7 +71,7 @@ module.exports = app => {
     });
     
     // show all favourites
-    app.get("/favorites", (req, res) => {
+    app.get("/favourites", (req, res) => {
         console.log("EXPRESS: /favorite");
 
         // get all documents in the favorites collection

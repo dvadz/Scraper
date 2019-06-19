@@ -9,7 +9,7 @@ const db = require("../models");
 module.exports = app => {
 
     // save the listing with the given id
-    app.post("/api/save/:id", (req, res) => {
+    app.post("/api/favourites/:id", (req, res) => {
         const id = req.params.id;
 
         console.log("EXPRESS: /api/save:id");
@@ -63,7 +63,18 @@ module.exports = app => {
         });
     });
 
-
-
-
+    app.delete("/api/favourites/:id", (req, res) => {
+        console.log("EXPRESS: DELETE /api/favorites/:id")
+        console.log(req.params.id);
+        // remove the listing from the favourites
+        db.Favorite.findByIdAndDelete({_id: req.params.id})
+            .then(data => {
+                console.log(data);
+                res.send(data);
+            })
+            .catch(err => {
+                console.log(data);
+                res.status(500).send(err);
+            });
+    });
 }

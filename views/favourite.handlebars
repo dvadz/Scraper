@@ -1,0 +1,13 @@
+ {{#each favourite}}
+<div class="row py-4 my-4 border border-primary rounded">
+    <div class="contents col-md-9">
+        <a class="" href="{{link}}" target="_blank">{{title}}</a>
+        <p id="note">{{note}}</p>
+    </div>
+    
+    <div class="col-md-3 ">
+        <button data-name="{{_id}}" class="add-note btn btn-primary">Add a note</button>
+        <button data-name="{{_id}}" class="remove btn btn-primary">Remove</button>
+    </div>
+</div>
+{{/each}}
