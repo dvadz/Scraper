@@ -8,11 +8,11 @@ const db = require("../models");
 
 module.exports = app => {
 
-    // save the listing with the given id
+    // CREATE : save the listing with the given id
     app.post("/api/favourites/:id", (req, res) => {
-        const id = req.params.id;
+        console.log("EXPRESS: CREATE FAVOURITES");
 
-        console.log("EXPRESS: /api/save:id");
+        const id = req.params.id;
 
         // get the details of this id
         db.Article.find({_id: id})
@@ -63,8 +63,37 @@ module.exports = app => {
         });
     });
 
+    // READ : find one with the given _id
+    app.get("/api/favourites/:id", (req, res) => {
+        console.log(`EXPRESS: READ FAVOURITES`);
+        const id = req.params.id;
+        db.Favorite.find({_id: id})
+            .then(data => {
+                res.json(data);
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(500).send(err);
+            });
+    });
+
+    // UPDATE:
+    app.put("/api/favourites/:id", (req, res) => {
+        console.log(`EXPRESS: UPDATE FAVOURITES`);
+        console.log(req.body);
+        db.Favorite.update({_id: req.params.id}, req.body)
+            .then(data => {
+                res.json(data);
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(500).send(error);
+            });
+    });
+
+    // DELETE: 
     app.delete("/api/favourites/:id", (req, res) => {
-        console.log("EXPRESS: DELETE /api/favorites/:id")
+        console.log("EXPRESS: DELETE FAVOURITES")
         console.log(req.params.id);
         // remove the listing from the favourites
         db.Favorite.findByIdAndDelete({_id: req.params.id})

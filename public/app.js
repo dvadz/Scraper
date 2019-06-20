@@ -1,3 +1,7 @@
+let scraper = {
+    currentId : '',
+    currentListing: {}
+};
 
 $(document).ready(() =>{
     console.log("document is ready!");
@@ -37,6 +41,71 @@ $(document).ready(() =>{
         });        
     });
 
+    // CLICK TO ADD A NOTE
+    $(".add-note").on("click", event => {
+        const id = event.target.dataset.name;
+        console.log(`Add a note to ${id}`);
+        
+        //store the _id for later use with the modal
+        scraper.currentId = id;
+
+        //show the modal
+        $("#trigger-modal").click();
+    });
+
+
+    //FILL UP THE MODAL
+    $(".modal").on("shown.bs.modal", () => {
+        console.log("modal is displayed");
+        $.get(`/api/favourites/${scraper.currentId}`)
+            .then(data => {
+                //save a local copy of the listing
+                scraper.currentListing = data[0];
+                console.log(scraper.currentListing);
+                //show any existing notes on the modal
+                $("textarea").val(data[0].note);
+            });
+    });
+
+    // CLEAR THE MODAL WHEN CLOSED
+    $(".modal").on("hidden.bs.modal", () => {
+        $("textarea").val("");
+        console.log("modal is hidden");
+    });
+
+    // CLICK TO SAVE NOTE
+    $("#save-note").on("click", () => {
+        // retrive the note and save it
+        const note = $("textarea").val();
+        scraper.currentListing.note = note;
+        
+        console.log("Save note");
+        saveNote();
+    });
+
+    // CLICK TO DELETE THE NOTE
+    $("#delete-note").on("click", () => {
+        console.log("Delete note");
+        scraper.currentListing.note = "";
+        saveNote();
+    });
 });
 
 
+function saveNote(){
+
+    $.ajax({
+        url: `/api/favourites/${scraper.currentId}`,
+        method: "PUT",
+        data: scraper.currentListing
+    })
+    .then(data => {
+        console.log(data);
+        //close the modal
+        $("#close-note").click();
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+}
